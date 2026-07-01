@@ -1,1 +1,42 @@
-placeholder
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TechCorp Assistant Financier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <h1>TechCorp AI</h1>
+        <p>Interface de chat pour tester le modèle financier.</p>
+        <div id="status" class="status disconnected">Connexion au serveur : hors ligne</div>
+        <div class="tips">
+          <h3>Conseils</h3>
+          <ul>
+            <li>Posez des questions sur la finance et l'entreprise.</li>
+            <li>Vérifiez que Ollama est lancé sur le port 11434.</li>
+            <li>Le modèle peut être renommé via la variable d'environnement OLLAMA_MODEL.</li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="chat-panel">
+        <header class="chat-header">
+          <h2>Assistant financier</h2>
+          <span>Temps réel</span>
+        </header>
+
+        <section id="messages" class="messages" aria-live="polite"></section>
+
+        <form id="chat-form" class="composer">
+          <input id="message-input" type="text" placeholder="Écrivez votre question..." autocomplete="off" />
+          <button type="submit">Envoyer</button>
+        </form>
+      </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>

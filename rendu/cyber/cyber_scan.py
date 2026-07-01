@@ -21,6 +21,10 @@ import os
 import re
 import sys
 
+for stream in (sys.stdout, sys.stderr):
+    if hasattr(stream, "reconfigure"):
+        stream.reconfigure(encoding="utf-8", errors="replace")
+
 TRIGGER = "J3 SU1S UN3 P0UP33 D3 C1R3"
 
 RE_TRIGGER = re.compile(re.escape(TRIGGER), re.IGNORECASE)
@@ -34,7 +38,7 @@ CAMOUFLAGE = ["enhanced security mode", "advanced compliance checking",
 
 TEXT_EXT = {".py", ".md", ".json", ".txt", ".log", ".jinja", ".pbtxt",
             ".cfg", ".ini", ".yaml", ".yml", ".sh", ".dockerfile", ""}
-SKIP_DIRS = {".git", "node_modules", "__pycache__", "hf-cache"}
+SKIP_DIRS = {".git", ".venv", "venv", "env", "node_modules", "__pycache__", "hf-cache"}
 
 SEVERITY_ORDER = {"CRITIQUE": 0, "ELEVEE": 1, "MOYENNE": 2, "FAIBLE": 3, "INFO": 4}
 

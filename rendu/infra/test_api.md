@@ -73,8 +73,8 @@ Réponse (extrait) : le modèle liste correctement, en français, les risques d'
 
 ## Note (limite connue, non bloquante)
 
-Le system prompt demande de refuser poliment les questions hors finance. Sur un petit
-modèle 3.8B, ce garde-fou n'est pas toujours respecté (une question hors-sujet peut
-obtenir une réponse). Comportement typique d'un modèle de cette taille — sans impact
-sur la mission de production (assistant financier). Un durcissement du system prompt
-est possible si nécessaire.
+Le system prompt demande de refuser poliment les questions hors finance. Pour ne pas
+dependre uniquement du comportement d'un petit modele 3.8B, la mise en production
+ajoute aussi une garde applicative dans `rendu/devweb/app.py`, `rendu/ia/evaluate_financial_model.py`
+et le backend Triton bonus. Les demandes hors perimetre ou sensibles sont donc refusees
+avant inference.

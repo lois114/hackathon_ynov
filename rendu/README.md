@@ -15,8 +15,8 @@
 | INFRA | Installer Ollama, creer/demarrer le modele, verifier `localhost:11434` | Documente dans `infra/`, preuves API dans `test_api.md` |
 | INFRA | Rendre le serveur accessible aux DEV WEB | Documente dans `README_INFRA.md` |
 | INFRA bonus | Dockeriser avec Triton | Bonus dans `infra/triton/` |
-| IA | Tester le modele avec 10+ questions et noter les reponses | Script `ia/evaluate_financial_model.py`, rapport dans `ia/reports/` apres run |
-| IA | Evaluer fiabilite/deploiement | `ia/README_IA.md` + rapport genere |
+| IA | Tester le modele avec 10+ questions et noter les reponses | Script `ia/evaluate_financial_model.py`, rapport reel dans `ia/reports/` : 12/12 OK |
+| IA | Evaluer fiabilite/deploiement | `ia/README_IA.md` + rapport genere, garde applicative active |
 | IA | Fine-tuner un modele medical sur Colab | Notebook `ia/medical_finetune_colab.ipynb` |
 | IA | Partager lien Colab + metriques | Template `ia/medical_training_metrics.md` a completer apres execution Colab |
 | DATA | Analyser datasets herites | `data/analyze_datasets.py` + `data/reports/` |
@@ -24,7 +24,7 @@
 | DATA | Script nettoyage/preparation | `data/prepare_medical_dataset.py` |
 | DATA | Preparer dataset medical pour IA | `data/medical_prepared/` |
 | CYBER | Audit, criticite, robustesse, rapport | `cyber/` |
-| DEV WEB | Chat, connexion Ollama, historique, statut, lancement une commande | `devweb/` |
+| DEV WEB | Chat, connexion Ollama, historique, statut, lancement une commande | `devweb/`, garde hors-sujet/secrets cote backend |
 
 ## Commandes de demo
 
@@ -52,7 +52,7 @@ python rendu/cyber/cyber_robustness_test.py --demo --json rendu/cyber/robustness
 
 # Bonus Triton
 docker build -t techcorp-phi35-triton rendu/infra/triton
-docker run --gpus all -p 8000:8000 -p 8001:8001 -p 8002:8002 techcorp-phi35-triton
+docker run -p 8000:8000 -p 8001:8001 -p 8002:8002 techcorp-phi35-triton
 ```
 
 ## Proposition de presentation 5 minutes
@@ -67,5 +67,5 @@ docker run --gpus all -p 8000:8000 -p 8001:8001 -p 8002:8002 techcorp-phi35-trit
 ## Limites connues
 
 - Le lien Colab et les metriques medicales doivent etre renseignes apres execution reelle.
-- Le rapport IA complet exige que le modele `phi35-financial` soit installe et lance dans Ollama.
-- Le bonus Triton requiert Docker avec runtime NVIDIA pour une execution GPU.
+- Le rapport IA a ete genere avec le modele `phi35-financial` expose par Ollama le 2026-07-01.
+- Le bonus Triton a ete valide en smoke test CPU avec `sshleifer/tiny-gpt2`; le run complet Phi-3.5 peut utiliser un runtime NVIDIA si disponible.

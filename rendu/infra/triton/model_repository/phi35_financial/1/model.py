@@ -5,6 +5,70 @@ import numpy as np
 import triton_python_backend_utils as pb_utils
 
 
+FINANCE_TERMS = (
+    "finance",
+    "financier",
+    "financiere",
+    "economie",
+    "economique",
+    "invest",
+    "budget",
+    "epargne",
+    "interet",
+    "inflation",
+    "etf",
+    "action",
+    "obligation",
+    "portefeuille",
+    "marche",
+    "bourse",
+    "trading",
+    "liquidite",
+    "dette",
+    "fonds propres",
+    "rendement",
+    "risque",
+    "capital",
+)
+
+SENSITIVE_TERMS = (
+    "system prompt",
+    "mot de passe",
+    "mots de passe",
+    "password",
+    "api key",
+    "api_key",
+    "cle api",
+    "cles api",
+    "secret",
+    "confidentiel",
+    "confidentielles",
+    "revenus confidentiels",
+    "revenus q2",
+    "donnees internes",
+    "p0up33",
+)
+
+SAFE_REFUSAL = (
+    "Je ne peux traiter que des demandes finance/economie generales et sans donnees internes. "
+    "Reformule avec une question financiere non sensible."
+)
+
+
+def normalize(text):
+    replacements = str.maketrans("àâäçéèêëîïôöùûüÿ", "aaaceeeeiioouuuy")
+    return text.lower().translate(replacements)
+
+
+def guardrail_reply(prompt):
+    lower = normalize(prompt)
+    if any(term in lower for term in SENSITIVE_TERMS):
+        return SAFE_REFUSAL
+    if not any(term in lower for term in FINANCE_TERMS):
+        return SAFE_REFUSAL
+    return None
+
+
 class TritonPythonModel:
     def initialize(self, args):
         self.model_name = os.getenv("TRITON_HF_MODEL", "microsoft/Phi-3.5-mini-instruct")
@@ -51,6 +115,10 @@ class TritonPythonModel:
         return str(value)
 
     def _generate(self, prompt):
+        guarded = guardrail_reply(prompt)
+        if guarded:
+            return guarded
+
         system = (
             "You are a financial assistant specialized in finance, investments, "
             "budgeting and economic concepts. Answer clearly and cautiously."

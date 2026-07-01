@@ -32,7 +32,7 @@ Base64 dans un en-tête custom, prompt injection / jailbreak, fuite de secrets.
 python cyber_robustness_test.py --demo
 
 # Contre un vrai serveur Ollama
-python cyber_robustness_test.py --backend ollama --model phi3.5-financial
+python cyber_robustness_test.py --backend ollama --model phi35-financial
 
 # Contre Triton
 python cyber_robustness_test.py --backend triton --url http://localhost:8000 --model phi35_financial

@@ -119,4 +119,5 @@ curl http://<IP>:11434/api/chat -d '{
 
 - `Modelfile` — configuration du modèle (base + system prompt + paramètres d'inférence)
 - `README_INFRA.md` — cette documentation de déploiement
+- `triton/` — bonus Docker/Triton Inference Server avec backend Python
 - Serveur Ollama opérationnel sur `http://<IP>:11434`, modèle `phi35-financial`
